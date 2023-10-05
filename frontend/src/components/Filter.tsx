@@ -38,7 +38,7 @@ const Search = styled.div`
   input {
     background-color: ${colors.greyBlue};
     border: 1px solid ${colors.whiteTransparent};
-    width: 80px;
+    width: 150px;
     height: 30px;
     padding-left: 10px;
 
@@ -58,15 +58,13 @@ const Select = styled.div`
   }
 `
 
-export function Filter() {
+export function Filter({ sectionList, categoryList }: { sectionList: string[], categoryList: string[] }) {
   const {
-    sectionList,
-    categoryList,
     filterValues,
     handleSelectChange,
     handleInputChange,
     handleSubmitSearchProducts,
-  } = useFilter()
+  } = useFilter(sectionList)
 
   return (
     <FilterArea>
@@ -102,8 +100,8 @@ export function Filter() {
             id="filterSection"
           >
             {sectionList.map((sectionItem) => (
-              <option key={sectionItem.section} value={sectionItem.section}>
-                {sectionItem.section.replace(/-/g, ' ')}
+              <option key={sectionItem} value={sectionItem}>
+                {sectionItem.replace(/-/g, ' ')}
               </option>
             ))}
           </select>
@@ -117,8 +115,8 @@ export function Filter() {
             id="filterCategory"
           >
             {categoryList.map((categoryItem) => (
-              <option key={categoryItem.category} value={categoryItem.category}>
-                {categoryItem.category.replace(/-/g, ' ')}
+              <option key={categoryItem} value={categoryItem}>
+                {categoryItem.replace(/-/g, ' ')}
               </option>
             ))}
           </select>

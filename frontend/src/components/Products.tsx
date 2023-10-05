@@ -3,8 +3,9 @@ import styled from "styled-components"
 import { Filter } from "./Filter"
 import { Aside } from "./Aside"
 import { colors } from '../theme/theme'
-import { PRODUCTS_JSON, PRUDUCT_PRE_URL, SECTION_PRE_URL } from "../constants/endpoint"
+import { CATEGORY_LIST, PRODUCTS_JSON, PRUDUCT_PRE_URL, SECTION_LIST, SECTION_PRE_URL, SUB_CATEGORY_LIST } from "../constants/endpoint"
 import { NavLink, useParams } from "react-router-dom"
+import { useFetch } from "../hooks/useFetch"
 
 interface DivProps {
   $width?: string
@@ -78,27 +79,32 @@ const NavLinkStyle = styled(NavLink)`
 export function Products() {
   const [products, setProducts] = useState<ProductsType[]>([])
   const { section, category, subCategory, page, search, searchQuery } = useParams()
+  const currentPage = parseInt(page ?? '1')
 
-
+  const sectionListUrl = SECTION_LIST
+  const { data: sectionList } = useFetch(sectionListUrl)
+  const categoryListUrl = CATEGORY_LIST + (section || sectionList[0])
+  const { data: categoryList } = useFetch(categoryListUrl)
+  const subCategoryListUrl = SUB_CATEGORY_LIST + (category || categoryList[0])
+  const { data: subCategoryList } = useFetch(subCategoryListUrl)
 
   useEffect(() => {
     const getProducts = async () => {
-
-      let URL_PRODUCTS = PRODUCTS_JSON + PRUDUCT_PRE_URL
+      let productsUrl = PRODUCTS_JSON + PRUDUCT_PRE_URL
 
       if (search && searchQuery) {
-        URL_PRODUCTS = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}${search}=${searchQuery}`
+        productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}${search}=${searchQuery}`
       } else if (subCategory) {
-        URL_PRODUCTS = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}sub-category=${subCategory}`
+        productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}sub-category=${subCategory}`
         console.log(subCategory)
       } else if (category) {
-        URL_PRODUCTS = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}category=${category}`
+        productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}category=${category}`
       } else if (section) {
-        URL_PRODUCTS = `${PRODUCTS_JSON}${SECTION_PRE_URL}section=${section}`
+        productsUrl = `${PRODUCTS_JSON}${SECTION_PRE_URL}section=${section}`
       }
 
       try {
-        const response = await fetch(URL_PRODUCTS)
+        const response = await fetch(productsUrl)
         const data: ProductsType[] = await response.json()
         setProducts(data)
       } catch (error) {
@@ -109,11 +115,28 @@ export function Products() {
     getProducts()
   }, [section, category, subCategory, search, searchQuery])
 
+  function getNextPageLink() {
+    let nextPageLink = '/products';
+
+    if (section) {
+      nextPageLink += `/${section}`;
+      if (category) {
+        nextPageLink += `/${category ?? categoryList[0]}`;
+        if (subCategory) {
+          nextPageLink += `/${subCategory ?? subCategoryList[0]}`;
+        }
+      }
+    }
+
+    nextPageLink += `/page/${currentPage + 1}`;
+    return nextPageLink;
+  }
+
   return (
     <>
-      <Filter />
+      <Filter sectionList={sectionList} categoryList={categoryList} />
       <Main>
-        <Aside />
+        <Aside categoryList={categoryList} subCategoryList={subCategoryList} />
         <Ul>
           <li>
             <TableHeader $width="20%">
@@ -136,7 +159,7 @@ export function Products() {
             </TableHeader>
           </li>
 
-          {products.slice(0, 20 * parseInt(page ?? '1')).map(product => (
+          {products.slice(0, 20 * currentPage).map(product => (
             <li key={product.product_id}>
               <Table $width="20%">
                 <img src={product.img} alt={product.alt} />
@@ -158,9 +181,11 @@ export function Products() {
               </Table>
             </li>
           ))}
-          <NavLinkStyle to={`/products/${section}/${category}/${subCategory}/${parseInt(page ?? '1') + 1}`}>
-            Show more product
-          </NavLinkStyle>
+          {search != 'id' && products.length > 20 && (products.length > currentPage * 20) &&
+            <NavLinkStyle to={getNextPageLink()}>
+              Show more product
+            </NavLinkStyle>
+          }
         </Ul>
       </Main>
     </>

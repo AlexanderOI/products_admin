@@ -2,8 +2,6 @@ import styled from "styled-components"
 
 import { NavLink, useParams } from "react-router-dom"
 import { colors } from '../theme/theme'
-import { useEffect, useState } from "react"
-import { SUB_CATEGORY_LIST } from "../constants/endpoint"
 
 const AsideStyle = styled.aside`
   display: flex;
@@ -28,30 +26,14 @@ const NavLinkStyle = styled(NavLink)`
   color: ${colors.whiteTransparent};
 `
 
-export function Aside() {
-  const [subCategoryList, setSubCategoryList] = useState<string[]>([])
-
+export function Aside({ categoryList, subCategoryList }: { categoryList: string[], subCategoryList: string[] }) {
   const { section, category } = useParams()
-
-  useEffect(() => {
-    async function fetchCategoryList() {
-      try {
-        const response = await fetch(SUB_CATEGORY_LIST + category)
-        const data = await response.json()
-        setSubCategoryList(data)
-      } catch (error) {
-        console.log('Error Get Category List: ', error)
-      }
-    }
-
-    fetchCategoryList()
-  }, [category])
 
   return (
     <AsideStyle>
       <nav>
         {subCategoryList.map((subCategory) => (
-          <NavLinkStyle key={subCategory} to={`/products/${section}/${category}/${subCategory}`}>
+          <NavLinkStyle key={subCategory} to={`/products/${section}/${category || categoryList[0]}/${subCategory}`}>
             {subCategory.replace(/-/g, ' ')}
           </NavLinkStyle>
         ))}
