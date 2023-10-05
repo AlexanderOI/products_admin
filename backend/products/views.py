@@ -70,18 +70,20 @@ def image(request):
       return HttpResponse('Imagen no encontrada', status=404)
     
 def section_list(request):
-    section = list(Section.objects.all().values())
-    return JsonResponse(section, safe=False)
+    sections = list(Section.objects.all().values())
+    sections_names = [section['section'] for section in sections]
+    return JsonResponse(sections_names, safe=False)
 
 def category_list(request):
     section_name = request.GET.get('list')
-    category = list(Category.objects.filter(sectioncategory__section=section_name).values())
-    return JsonResponse(category, safe=False)
+    categories = list(Category.objects.filter(sectioncategory__section=section_name).values())
+    categories_names = [category['category'] for category in categories]
+    return JsonResponse(categories_names, safe=False)
 
 def sub_category_list(request):
-    categoria_deseada = request.GET.get('list')
+    category = request.GET.get('list')
     
-    subcategorias = Products.objects.filter(category__category=categoria_deseada).values('sub_category').distinct()
-    nombres_subcategorias = [sub['sub_category'] for sub in subcategorias]
+    sub_categories = Products.objects.filter(category__category=category).values('sub_category').distinct()
+    sub_categories_names = [sub['sub_category'] for sub in sub_categories]
     
-    return JsonResponse(nombres_subcategorias, safe=False)
+    return JsonResponse(sub_categories_names, safe=False)
