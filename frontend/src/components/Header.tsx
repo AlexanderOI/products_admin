@@ -51,14 +51,13 @@ export function Header() {
   return (
     <HeaderStyle>
       <div>
-        <img src={logo} alt="Product management app logo" />
+        <img src={logo} alt='Product management app logo' />
         <h2>Products Admin</h2>
       </div>
       <nav>
-        <NavLinkStyle to={'/products'}>view products</NavLinkStyle>
-        <NavLinkStyle to={'/insert'}>Insert</NavLinkStyle>
-        <NavLinkStyle to={'/delete'}>Delete</NavLinkStyle>
-        <NavLinkStyle to={'/query'}>SQL queries</NavLinkStyle>
+        <NavLinkStyle to={'/products'}>View products</NavLinkStyle>
+        <NavLinkStyle to={'/administration'}>Administration</NavLinkStyle>
+        <NavLinkStyle to={'/query'}>SQL Queries</NavLinkStyle>
       </nav>
     </HeaderStyle>
   )

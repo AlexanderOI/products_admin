@@ -1,6 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Header } from "./components/Header"
-import { Products } from "./components/Products"
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Header } from './components/Header'
+import { Products } from './pages/products/Products'
+import { Insert } from './pages/administration/insert/Insert'
+import { SelectInsertProvider } from './context/SelectInsertProvider'
 
 function App() {
 
@@ -21,10 +23,14 @@ function App() {
           <Route path={'/products/:section/:category/:subCategory'} element={<Products />} />
           <Route path={'/products/:section/:category/:subCategory/page/:page'} element={<Products />} />
 
-          <Route path={'/insert'} element={<Products />} />
-          <Route path={'/delete'} element={<Products />} />
+
+          <Route path={'/administration'} element={<SelectInsertProvider><Insert /></SelectInsertProvider>} />
+          <Route path={'/administration/insert'} element={<SelectInsertProvider><Insert /></SelectInsertProvider>} />
+
+
+          <Route path={'/administration/delete'} element={<Insert />} />
           <Route path={'/query'} element={<Products />} />
-          <Route path="*" element={<p>404</p>} />
+          <Route path='*' element={<p>404</p>} />
         </Routes>
       </BrowserRouter>
     </>
