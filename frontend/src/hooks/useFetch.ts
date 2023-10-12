@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 export function useFetch(url: string): { data: string[] } {
   const [data, setData] = useState<string[]>(['a'])
@@ -8,7 +8,7 @@ export function useFetch(url: string): { data: string[] } {
       try {
         const response = await fetch(url)
         if (!response.ok) {
-          throw new Error("Network response was not ok")
+          throw new Error('Network response was not ok')
         }
         const data: string[] = await response.json()
         setData(data)
