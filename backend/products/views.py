@@ -1,12 +1,12 @@
 import json
 import os
+
 from django.http import HttpResponse, HttpRequest, JsonResponse
-from .forms import Products_Form
+from django.views.decorators.csrf import csrf_exempt
 
 from products_api.settings import MEDIA_ROOT
+from .forms import Products_Form
 from .models import Section, Category, Products
-
-from django.views.decorators.csrf import csrf_exempt
 
 def products(request: HttpRequest):
     product_id = request.GET.get('id')
@@ -95,6 +95,7 @@ def sub_category_list(request: HttpRequest):
     
     return JsonResponse(sub_categories_names, safe=False)
 
+
 @csrf_exempt
 def insert_products(request: HttpRequest):
     if request.method == 'POST':
@@ -121,3 +122,18 @@ def insert_products(request: HttpRequest):
             return JsonResponse(response_data, status=400)
 
     
+@csrf_exempt
+def delete_products(request: HttpRequest):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        if data['postUrl'].isdigit() and data['preUrl'] == 'id':
+            id_product = int(data['postUrl'])
+            product_detele = Products.objects.get(product_id=id_product)
+            product_detele.delete()
+            
+            response_data = {'message': 'The product was successfully removed'}
+            return JsonResponse(response_data, status=200)
+        else:
+            response_data = {'message': 'An error occurred while deleting the product, please try again'}
+            return JsonResponse(response_data, status=400)
