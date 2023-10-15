@@ -8,6 +8,7 @@ import { NavLink, useParams } from 'react-router-dom'
 import { useFetch } from '../../hooks/useFetch'
 import { Main } from '../../style/components-styles'
 import { Container } from '../../style/components-styles'
+import { ProductsType } from '../../types.'
 
 interface DivProps {
   $width?: string
@@ -47,18 +48,6 @@ const TableHeader = styled.div<DivProps>`
   border-radius: 3px;
 `
 
-type ProductsType = {
-  product_id: number,
-  sub_category: string
-  category_id: string
-  product: string
-  alt: string
-  price: number,
-  stock: number,
-  quantity: number,
-  img: string
-}
-
 const NavLinkStyle = styled(NavLink)`
   margin: 10px auto;
   text-decoration: none;
@@ -92,7 +81,6 @@ export function Products() {
         productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}${search}=${searchQuery}`
       } else if (subCategory) {
         productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}sub-category=${subCategory}`
-        console.log(subCategory)
       } else if (category) {
         productsUrl = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}category=${category}`
       } else if (section) {

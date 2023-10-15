@@ -35,17 +35,19 @@ const Form = styled.form`
 interface FormProductsProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
   productData: {
-    image: string,
-    name: string,
-    category: string,
-    stock: number,
-    price: number,
+    image: string
+    name: string
+    category: string
+    stock: number
+    price: number
   }
   buttonText: string
 }
 
-export function FormProducts({ handleSubmit, handleInputChange, productData, buttonText }: FormProductsProps) {
+export function FormProducts({ handleSubmit, handleInputChange, onFocus, onBlur, productData, buttonText }: FormProductsProps) {
   return (
     <Form onSubmit={handleSubmit}>
       <div>
@@ -53,8 +55,11 @@ export function FormProducts({ handleSubmit, handleInputChange, productData, but
         <input
           type='text'
           name='name'
+          autoComplete="off"
           value={productData.name}
           onChange={handleInputChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </div>
       <div>
@@ -62,8 +67,11 @@ export function FormProducts({ handleSubmit, handleInputChange, productData, but
         <input
           type='number'
           name='price'
+          autoComplete="off"
           value={productData.price}
           onChange={handleInputChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </div>
       <div>
@@ -71,8 +79,11 @@ export function FormProducts({ handleSubmit, handleInputChange, productData, but
         <input
           type='number'
           name='stock'
+          autoComplete="off"
           value={productData.stock}
           onChange={handleInputChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </div>
       <div>
@@ -80,8 +91,11 @@ export function FormProducts({ handleSubmit, handleInputChange, productData, but
         <input
           type='text'
           name='image'
+          autoComplete="off"
           value={productData.image}
           onChange={handleInputChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </div>
       <button type='submit'>{buttonText}</button>

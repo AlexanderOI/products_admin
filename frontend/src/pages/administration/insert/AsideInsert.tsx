@@ -1,21 +1,13 @@
 import styled from 'styled-components'
-import { colors } from '../../../theme/theme'
 import { Select } from '../../../components/Select'
 import { useEffect } from 'react'
 import { CATEGORY_LIST, SECTION_LIST, SUB_CATEGORY_LIST } from '../../../constants/endpoint'
 import { useFetch } from '../../../hooks/useFetch'
 import { useSelectInsert } from '../../../context/SelectInsertProvider'
+import { asideAdministrationStyle } from '../../../style/css.styles'
 
 const SelectAreaDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: ${colors.greyBlue};
-  margin: 5px;
-  margin-bottom: 20px;
-  width: 100%;
-  height: 150px;
+  ${asideAdministrationStyle}
 
   select {
   margin-top: 5px;
@@ -26,7 +18,6 @@ const SelectAreaDiv = styled.div`
 
 export function AsideInsert() {
   const { selectInsertValues, setSelectInsertValues } = useSelectInsert()
-
 
   const sectionListUrl = SECTION_LIST
   const { data: sectionList } = useFetch(sectionListUrl)
@@ -56,7 +47,6 @@ export function AsideInsert() {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target
 
-    console.log(name, value)
     setSelectInsertValues((prevState) => ({
       ...prevState,
       [name]: value

@@ -16,3 +16,19 @@ export const NavLinkStyle = styled(NavLink)`
 text-decoration: none;
 color: ${colors.whiteTransparent};
 `
+
+export const SearchStyle = styled.div`
+  display: flex;
+  align-items: center;
+
+  input {
+    background-color: ${colors.greyBlue};
+    border: 1px solid ${colors.whiteTransparent};
+    padding-left: 10px;
+
+    &:focus {
+      outline: none;
+      border: 2px solid ${colors.whiteTransparent};
+    }
+  }
+`

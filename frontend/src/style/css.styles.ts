@@ -20,3 +20,15 @@ export const asideStyle = css`
   min-width: 300px;
   min-height: 100%;
 `
+
+export const asideAdministrationStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: ${colors.greyBlue};
+  margin: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 150px;
+`

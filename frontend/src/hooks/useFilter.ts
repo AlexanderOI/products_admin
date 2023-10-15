@@ -39,7 +39,7 @@ export function useFilter(sectionList: string[]): FilterHook {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    console.log(name, value)
+
     setFilterValues((prevValues) => ({
       ...prevValues,
       search: { ...prevValues.search, [name]: value },

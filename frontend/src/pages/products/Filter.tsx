@@ -4,6 +4,7 @@ import { useFilter } from '../../hooks/useFilter'
 import { headerStyle } from '../../style/css.styles'
 import { Search } from '../../components/Search'
 import { Select } from '../../components/Select'
+import { SearchStyle } from '../../style/components-styles'
 
 const FilterArea = styled.div`
   ${headerStyle}
@@ -26,6 +27,14 @@ const FilterArea = styled.div`
   }
 `
 
+const SearchProductsStyle = styled(SearchStyle)`
+  height: 30px;
+  input {
+    width: 150px;
+    height: 30px;
+  }
+`
+
 const SelectArea = styled.div`
   display: flex;
   flex-direction: row;
@@ -42,15 +51,20 @@ export function Filter({ sectionList, categoryList }: { sectionList: string[], c
     handleInputChange,
     handleSubmitSearchProducts,
   } = useFilter(sectionList)
+  const searchOptionList = ['id', 'name', 'price']
 
   return (
     <FilterArea>
-      <Search
-        handleInputChange={handleInputChange}
-        handleSelectChange={handleSelectChange}
-        handleSubmitSearchProducts={handleSubmitSearchProducts}
-        filterValues={filterValues}
-      />
+      <SearchProductsStyle>
+        <Search
+          handleInputChange={handleInputChange}
+          handleSelectChange={handleSelectChange}
+          handleSubmitSearchProducts={handleSubmitSearchProducts}
+          searchValues={filterValues}
+          searchOptionList={searchOptionList}
+        />
+      </SearchProductsStyle>
+
 
       <SelectArea>
         <Select

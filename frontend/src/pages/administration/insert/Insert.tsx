@@ -96,13 +96,12 @@ export function Insert() {
       const response = await fetch(INSERT_PRODUCTS, {
         method: 'POST',
         body: JSON.stringify(insertData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' }
       })
 
       if (response.ok) {
-        setMessage('Product saved successfully in the database')
+        const data = await response.json()
+        setMessage(data.message)
       } else {
         const errorData = await response.json()
         setMessage(errorData.message || 'Error submitting the form, please try again')

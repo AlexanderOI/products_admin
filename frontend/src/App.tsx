@@ -3,6 +3,7 @@ import { Header } from './components/Header'
 import { Products } from './pages/products/Products'
 import { Insert } from './pages/administration/insert/Insert'
 import { SelectInsertProvider } from './context/SelectInsertProvider'
+import { Delete } from './pages/administration/delete/Delete'
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
           <Route path={'/administration/insert'} element={<SelectInsertProvider><Insert /></SelectInsertProvider>} />
 
 
-          <Route path={'/administration/delete'} element={<Insert />} />
+          <Route path={'/administration/delete'} element={<Delete />} />
           <Route path={'/query'} element={<Products />} />
           <Route path='*' element={<p>404</p>} />
         </Routes>
