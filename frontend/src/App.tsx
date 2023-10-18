@@ -4,6 +4,7 @@ import { Products } from './pages/products/Products'
 import { Insert } from './pages/administration/insert/Insert'
 import { SelectInsertProvider } from './context/SelectInsertProvider'
 import { Delete } from './pages/administration/delete/Delete'
+import { Query } from './pages/query/Query'
 
 function App() {
 
@@ -30,7 +31,7 @@ function App() {
 
 
           <Route path={'/administration/delete'} element={<Delete />} />
-          <Route path={'/query'} element={<Products />} />
+          <Route path={'/query'} element={<Query />} />
           <Route path='*' element={<p>404</p>} />
         </Routes>
       </BrowserRouter>

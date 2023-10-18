@@ -8,7 +8,7 @@ export const Container = styled.div`
 
 export const Main = styled.main`
   display: flex;
-  width: 100%;
+  width: 80%;
   min-height: calc(100vh - 120px);
 `
 
@@ -30,5 +30,20 @@ export const SearchStyle = styled.div`
       outline: none;
       border: 2px solid ${colors.whiteTransparent};
     }
+  }
+`
+
+export const ButtonSave = styled.button`
+  position: absolute;
+  background-color: ${colors.greenBlue};
+  border: none;
+  top: 0;
+  right: 0;
+  padding: 3px 5px 3px 5px;
+  margin: 10px;
+  cursor: pointer;
+
+  &:hover{
+    opacity: 0.5;
   }
 `

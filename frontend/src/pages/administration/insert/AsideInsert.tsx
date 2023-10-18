@@ -44,8 +44,8 @@ export function AsideInsert() {
     }
   }, [subCategoryList])
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target
 
     setSelectInsertValues((prevState) => ({
       ...prevState,

@@ -98,8 +98,8 @@ export function Delete() {
     setMessage('')
   }
 
-  const handleSubmitSearchProducts = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmitSearchProducts = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
     const url = `${PRODUCTS_JSON}${PRUDUCT_PRE_URL}${deleteValues.search.preUrl}=${deleteValues.search.postUrl}`
 
@@ -117,8 +117,8 @@ export function Delete() {
     }
   }
 
-  const handleInputChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { type, name, value } = e.target
+  const handleInputChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { type, name, value } = event.target
 
     setMessage('')
 
@@ -130,8 +130,8 @@ export function Delete() {
     }))
   }
 
-  const handleSubmitDelete = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmitDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
     try {
       const response = await fetch(`${DELETE_PRODUCTS}`, {

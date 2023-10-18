@@ -8,3 +8,6 @@ export const SUB_CATEGORY_LIST = 'http://localhost:8000/products/sub-category/?l
 
 export const INSERT_PRODUCTS = 'http://localhost:8000/products/insert/'
 export const DELETE_PRODUCTS = 'http://localhost:8000/products/delete/'
+
+export const QUERY_PRODUCTS = 'http://localhost:8000/products/query/'
+export const UPDATE_PRODUCTS = 'http://localhost:8000/products/update/'

@@ -33,10 +33,10 @@ const Form = styled.form`
 `
 
 interface FormProductsProps {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
   productData: {
     image: string
     name: string

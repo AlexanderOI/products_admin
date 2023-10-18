@@ -1,0 +1,11 @@
+.ace_editor {
+  background-color: #1a1a1a;
+}
+
+.ace_print-margin {
+  display: none;
+}
+
+.ace_autocomplete div {
+  font-size: 18px;
+}

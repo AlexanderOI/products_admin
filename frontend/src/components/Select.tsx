@@ -2,7 +2,7 @@ interface SelectProps {
   label?: string
   options: string[]
   value: string
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>, name: string) => void
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>, name: string) => void
   nameChange: string
   nameSelect: string
   id: string

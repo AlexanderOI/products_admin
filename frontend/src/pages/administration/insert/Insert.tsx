@@ -80,16 +80,16 @@ export function Insert() {
 
   const [message, setMessage] = useState('')
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
     setSelectInsertValues((prevSelectInsertValues) => ({
       ...prevSelectInsertValues,
       [name]: value,
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
     const insertData = productsInsertJson[dynamicKey]
     try {

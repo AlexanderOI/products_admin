@@ -7,9 +7,9 @@ type FilterValues = {
 
 type FilterHook = {
   filterValues: FilterValues
-  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>, type: string) => void
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleSubmitSearchProducts: (e: React.FormEvent<HTMLFormElement>) => void
+  handleSelectChange: (event: React.ChangeEvent<HTMLSelectElement>, type: string) => void
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleSubmitSearchProducts: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
 export function useFilter(sectionList: string[]): FilterHook {
@@ -22,8 +22,8 @@ export function useFilter(sectionList: string[]): FilterHook {
     search: { preUrl: 'id', postUrl: '' },
   })
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, type: string) => {
-    const { value, name } = e.target
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, type: string) => {
+    const { value, name } = event.target
 
     setFilterValues((prevValues) => ({
       ...prevValues,
@@ -37,8 +37,8 @@ export function useFilter(sectionList: string[]): FilterHook {
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
 
     setFilterValues((prevValues) => ({
       ...prevValues,
@@ -46,8 +46,8 @@ export function useFilter(sectionList: string[]): FilterHook {
     }))
   }
 
-  const handleSubmitSearchProducts = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmitSearchProducts = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     const { preUrl, postUrl } = filterValues.search
     navigate(`/products/search/${preUrl}/${postUrl}`)
   }

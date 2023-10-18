@@ -5,9 +5,9 @@ type SearchValues = {
 }
 
 interface SearchProps {
-  handleSubmitSearchProducts: (e: React.FormEvent<HTMLFormElement>) => void
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  handleSelectChange?: (e: React.ChangeEvent<HTMLSelectElement>, type: string) => void
+  handleSubmitSearchProducts: (event: React.FormEvent<HTMLFormElement>) => void
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleSelectChange?: (event: React.ChangeEvent<HTMLSelectElement>, type: string) => void
   searchValues: SearchValues
   searchOptionList?: string[]
 }
