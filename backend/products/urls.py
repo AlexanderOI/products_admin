@@ -10,5 +10,7 @@ urlpatterns = [
   path('sub-category/', views.sub_category_list, name='sub_category_list'),
   path('media/images/', views.image, name='images'),
   path('insert/', views.insert_products, name='insert'),
-  path('delete/', views.delete_products, name='delete')
+  path('delete/', views.delete_products, name='delete'),
+  path('query/', views.query_products, name='query'),
+  path('update/', views.update_products, name='update')
 ]

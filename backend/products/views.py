@@ -1,5 +1,6 @@
 import json
 import os
+from django.db import connection
 
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -126,7 +127,7 @@ def insert_products(request: HttpRequest):
 def delete_products(request: HttpRequest):
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
+        
         if data['postUrl'].isdigit() and data['preUrl'] == 'id':
             id_product = int(data['postUrl'])
             product_detele = Products.objects.get(product_id=id_product)
@@ -137,3 +138,58 @@ def delete_products(request: HttpRequest):
         else:
             response_data = {'message': 'An error occurred while deleting the product, please try again'}
             return JsonResponse(response_data, status=400)
+        
+
+@csrf_exempt
+def query_products(request: HttpRequest):
+    if request.method == 'POST':
+        rigth_list = ['SELECT', 'CREATE', 'INSERT', 'UPDATE', 'DELETE']
+        sql_query = json.loads(request.body)
+        
+        object_rigths = []
+        for index, (rigth, value) in enumerate(sql_query['rigth'].items()):
+            
+            if value == False:
+                object_rigths.append(rigth_list[index])
+        
+        for object_rigth in object_rigths:
+            is_valid = object_rigth.lower() in sql_query['query']
+            if is_valid: break
+                
+        if(sql_query['query'] and not is_valid):
+            
+            with connection.cursor() as cursor:
+                cursor.execute(sql_query['query'])
+                results = cursor.fetchall()
+                
+                columns = [col[0] for col in cursor.description]
+                
+                response = {'headers': columns, 'content': results}
+            
+            return JsonResponse(response, safe=False)
+        else:
+            return JsonResponse({'message': 'You do not have the rights to make this query'}, safe=False)
+
+
+@csrf_exempt        
+def update_products(request: HttpRequest):
+    if request.method == 'PATCH':
+        new_data = json.loads(request.body)
+        
+        producto = Products.objects.get(product_id=new_data[0])
+        
+        producto.sub_category = new_data[1]
+        producto.product = new_data[2]
+        producto.alt = new_data[3]
+        producto.price = new_data[4]
+        producto.stock = new_data[5]
+        producto.quantity = new_data[6]
+        producto.img = new_data[7]
+        producto.category.category = new_data[8]
+        
+        producto.save()
+        
+        return JsonResponse({'message': 'Product data updated successfully'}, safe=False)
+            
+        
+    
