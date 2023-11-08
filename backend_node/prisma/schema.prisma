@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Section {
+  section         String            @id @map(name: "section")
+  sectionCategory SectionCategory[]
+}
+
+model Category {
+  category          String            @id @map(name: "category")
+  sectionCategories SectionCategory[]
+  products          Product[]
+}
+
+model SectionCategory {
+  id          Int      @id @default(autoincrement())
+  section     Section  @relation(fields: [section_id], references: [section])
+  section_id  String
+  category    Category @relation(fields: [category_id], references: [category])
+  category_id String
+}
+
+model Product {
+  product_id   Int      @id @default(autoincrement())
+  sub_category String
+  category     Category @relation(fields: [category_id], references: [category])
+  category_id  String
+  product      String
+  alt          String
+  price        Float
+  stock        Int
+  quantity     Int
+  img          String
+}
