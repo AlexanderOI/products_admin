@@ -3,7 +3,7 @@ import { ProductsForm } from '../types'
 
 const productFormSchema = z.object({
   sub_category: z.string(),
-  category: z.string(),
+  category_id: z.string(),
   product: z.string(),
   alt: z.string(),
   price: z.number().positive(),

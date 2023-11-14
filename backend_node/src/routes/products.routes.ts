@@ -6,7 +6,7 @@ import { ProductsController } from '../controllers/products.controller'
 export const productsRouter = Router()
 
 productsRouter.get('/product', ProductsController.getProductsFilter)
-productsRouter.get('/section', ProductsController.InsertProducts)
+productsRouter.get('/section', ProductsController.getProductsSection)
 productsRouter.get('/section/list', ProductsController.getProductsSectionList)
 productsRouter.get('/category', ProductsController.getProductsCategory)
 productsRouter.get('/sub-category', ProductsController.getProductsSubCategory)

@@ -1,5 +1,7 @@
+import { Product } from "@prisma/client"
 import { prisma } from "../services/db"
 import { Filter } from "../types"
+import { validateProductForm } from "../schema/productForm"
 
 export class ProductsModel {
   static async getProductsFilter({ id, category, sub_category, name, price }: GetProductsFilter) {
@@ -28,19 +30,62 @@ export class ProductsModel {
   }
 
   static async getProductsSection({ section }: GetProductsSection) {
+    const categories_section = await prisma.sectionCategory.findMany({
+      where: {
+        section_id: section
+      },
+      select: {
+        category_id: true
+      },
+    })
+    const categories = categories_section.map(category => category.category_id)
 
+    let productsOfsection: Product[] = []
+    for (const category of categories) {
+      let products = await prisma.product.findMany({
+        where: {
+          category_id: category
+        }
+      })
+      productsOfsection = productsOfsection.concat(products)
+    }
+
+    return productsOfsection
   }
 
   static async getProductsSectionList() {
-
+    const sections = await prisma.section.findMany()
+    const sectionList = sections.map(section => section.section)
+    return sectionList
   }
 
   static async getProductsCategory({ sectionName }: GetProductsCategory) {
+    const categories = await prisma.sectionCategory.findMany({
+      where: {
+        section_id: sectionName
+      },
+      select: {
+        category_id: true
+      }
+    })
+    const categoryList = categories.map(categories => categories.category_id)
 
+    return categoryList
   }
 
   static async getProductsSubCategory({ categoryName }: GetProductsSubCategory) {
+    const subCategories = await prisma.product.findMany({
+      where: {
+        category_id: categoryName
+      },
+      distinct: ['sub_category'],
+      select: {
+        sub_category: true
+      }
+    })
+    const subCategoriesList = subCategories.map(subCategory => subCategory.sub_category)
 
+    return subCategoriesList
   }
 
   static async InsertProducts({ dataInsert }: InsertProducts) {
@@ -83,7 +128,7 @@ type GetProductsSubCategory = {
 }
 
 type InsertProducts = {
-  dataInsert: undefined
+  dataInsert: Product
 }
 
 type DeleteProducts = {
