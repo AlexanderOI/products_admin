@@ -2,6 +2,7 @@ import { Response, Request } from "express"
 import { ProductsModel } from "../models/products.model"
 import { prisma } from "../services/db"
 import { Product } from "@prisma/client"
+import { DataDeleteType } from "../types"
 
 export class ProductsController {
   static async getProductsFilter(req: Request, res: Response) {
@@ -54,11 +55,31 @@ export class ProductsController {
   }
 
   static async InsertProducts(req: Request, res: Response) {
+    const dataInsert: Product = req.body
+    const productInsert = await ProductsModel.InsertProducts({ dataInsert })
 
+    if (productInsert) {
+      let responseData = { 'message': 'Product saved successfully in the database' }
+      return res.json(responseData)
+    }
+    else {
+      let responseData = { 'message': 'Invalid form data' }
+      return res.status(400).json(responseData)
+    }
   }
 
   static async deleteProducts(req: Request, res: Response) {
+    const dataDelete: DataDeleteType = req.body
 
+    const productDelete = await ProductsModel.deleteProducts({ dataDelete })
+
+    if (productDelete) {
+      const responseData = { 'message': 'The product was successfully removed' }
+      return res.json(responseData)
+    } else {
+      const responseData = { 'message': 'An error occurred while deleting the product, please try again' }
+      return res.status(400).json(responseData)
+    }
   }
 
   static async queryProducts(req: Request, res: Response) {

@@ -40,7 +40,7 @@ interface FormProductsProps {
   productData: {
     image: string
     name: string
-    category: string
+    category_id: string
     stock: number
     price: number
   }

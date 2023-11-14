@@ -48,7 +48,7 @@ const Form = styled.div`
 
 type Products = {
   sub_category: string
-  category: string
+  category_id: string
   product: string
   alt: string
   price: number
@@ -68,7 +68,7 @@ export function Insert() {
   const [productsInsertJson, setProductsInsertJson] = useState<ProductsInsertJson>({
     [dynamicKey]: {
       sub_category: '',
-      category: '',
+      category_id: '',
       product: '',
       alt: '',
       price: 0,
@@ -115,7 +115,7 @@ export function Insert() {
     setProductsInsertJson({
       [dynamicKey]: {
         sub_category: '',
-        category: '',
+        category_id: '',
         product: '',
         alt: '',
         price: 0,
@@ -140,7 +140,7 @@ export function Insert() {
     setProductsInsertJson({
       [dynamicKey]: {
         sub_category: selectInsertValues.subCategory,
-        category: selectInsertValues.category,
+        category_id: selectInsertValues.category_id,
         product: selectInsertValues.name.toUpperCase(),
         alt: 'Foto ' + selectInsertValues.name.toUpperCase(),
         price: parseFloat(selectInsertValues.price.toString()) || 0,

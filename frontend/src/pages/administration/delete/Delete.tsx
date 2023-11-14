@@ -70,7 +70,7 @@ const SearchProductsStyle = styled(SearchStyle)`
 
 export function Delete() {
   const [productsInsertJson, setProductsInsertJson] = useState<ProductsType>({
-    product_id: 6,
+    product_id: 0,
     sub_category: '',
     category_id: '',
     product: '',
@@ -156,7 +156,7 @@ export function Delete() {
     section: '',
     image: productsInsertJson.img,
     name: productsInsertJson.product,
-    category: '',
+    category_id: '',
     subCategory: '',
     stock: productsInsertJson.stock,
     price: productsInsertJson.price

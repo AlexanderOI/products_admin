@@ -4,7 +4,7 @@ type SelectInsertValues = {
   section: string
   image: string
   name: string
-  category: string
+  category_id: string
   subCategory: string
   stock: number
   price: number
@@ -20,7 +20,7 @@ const initalContext: SelectInsertContextType = {
     section: 'Almacén',
     image: '',
     name: '',
-    category: '',
+    category_id: '',
     subCategory: '',
     stock: 0,
     price: 0

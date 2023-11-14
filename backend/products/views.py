@@ -106,7 +106,7 @@ def insert_products(request: HttpRequest):
         if products_info.is_valid():
             product = Products(
                 sub_category = products_info.cleaned_data['sub_category'],
-                category = Category.objects.get(category = products_info.cleaned_data['category']),
+                category = Category.objects.get(category = products_info.cleaned_data['category_id']),
                 product = products_info.cleaned_data['product'],
                 alt = products_info.cleaned_data['alt'],
                 price = products_info.cleaned_data['price'],

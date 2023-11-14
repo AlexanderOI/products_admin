@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client"
 import { prisma } from "../services/db"
-import { Filter } from "../types"
+import { DataDeleteType, Filter } from "../types"
 import { validateProductForm } from "../schema/productForm"
 
 export class ProductsModel {
@@ -89,11 +89,45 @@ export class ProductsModel {
   }
 
   static async InsertProducts({ dataInsert }: InsertProducts) {
+    const dataValid = validateProductForm(dataInsert)
+
+    if (dataValid.success) {
+      await prisma.product.create({
+        data: {
+          sub_category: dataValid.data.sub_category,
+          category_id: dataValid.data.category_id,
+          product: dataValid.data.product,
+          alt: dataValid.data.alt,
+          price: dataValid.data.price,
+          stock: dataValid.data.stock,
+          quantity: dataValid.data.quantity,
+          img: dataValid.data.img,
+        }
+      })
+      return true
+
+    } else {
+      return false
+    }
 
   }
 
   static async deleteProducts({ dataDelete }: DeleteProducts) {
+    function isNumber(str: string) {
+      return /^\d+$/.test(str)
+    }
 
+    if (isNumber(dataDelete.postUrl) && dataDelete.preUrl === 'id') {
+      const product_id = parseInt(dataDelete.postUrl)
+      await prisma.product.delete({
+        where: {
+          product_id: product_id
+        }
+      })
+      return true
+    } else {
+      return false
+    }
   }
 
   static async queryProducts({ querySQL }: QueryProducts) {
@@ -132,7 +166,7 @@ type InsertProducts = {
 }
 
 type DeleteProducts = {
-  dataDelete: undefined
+  dataDelete: DataDeleteType
 }
 
 type QueryProducts = {

@@ -36,3 +36,9 @@ export type Filter = {
   sub_category?: string
   price?: number
 }
+
+//Type data delete
+export type DataDeleteType = {
+  preUrl: string
+  postUrl: string
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ProductsForm } from '../types'
+import { Product } from '@prisma/client'
 
 const productFormSchema = z.object({
   sub_category: z.string(),
@@ -7,11 +7,11 @@ const productFormSchema = z.object({
   product: z.string(),
   alt: z.string(),
   price: z.number().positive(),
-  stock: z.number().int().positive(),
-  quantity: z.number().int().positive().default(0),
+  stock: z.number().positive(),
+  quantity: z.number().min(0).max(0),
   img: z.string(),
 })
 
-export const validateProductForm = (data: ProductsForm) => {
+export const validateProductForm = (data: Product) => {
   return productFormSchema.safeParse(data)
 }

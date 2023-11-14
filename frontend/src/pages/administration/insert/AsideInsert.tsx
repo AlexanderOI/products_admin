@@ -23,14 +23,14 @@ export function AsideInsert() {
   const { data: sectionList } = useFetch(sectionListUrl)
   const categoryListUrl = CATEGORY_LIST + (selectInsertValues.section || sectionList[0])
   const { data: categoryList } = useFetch(categoryListUrl)
-  const subCategoryListUrl = SUB_CATEGORY_LIST + (selectInsertValues.category || categoryList[0])
+  const subCategoryListUrl = SUB_CATEGORY_LIST + (selectInsertValues.category_id || categoryList[0])
   const { data: subCategoryList } = useFetch(subCategoryListUrl)
 
   useEffect(() => {
     if (categoryList.length > 0) {
       setSelectInsertValues((prevState) => ({
         ...prevState,
-        category: categoryList[0],
+        category_id: categoryList[0],
       }))
     }
   }, [categoryList])
@@ -70,10 +70,10 @@ export function AsideInsert() {
         <Select
           label='Select the category'
           options={categoryList}
-          value={selectInsertValues.category}
+          value={selectInsertValues.category_id}
           onChange={handleSelectChange}
-          nameChange='category'
-          nameSelect='category'
+          nameChange='category_id'
+          nameSelect='category_id'
           id='selectSection'
         />
       </SelectAreaDiv>
