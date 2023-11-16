@@ -1,8 +1,9 @@
 import { Response, Request } from "express"
 import { ProductsModel } from "../models/products.model"
-import { prisma } from "../services/db"
+import { executeQuery, prisma } from "../services/db"
 import { Product } from "@prisma/client"
-import { DataDeleteType } from "../types"
+
+import { DataDeleteType, SQLQuery } from "../types"
 
 export class ProductsController {
   static async getProductsFilter(req: Request, res: Response) {
@@ -19,7 +20,7 @@ export class ProductsController {
       console.error('Error in /product route:', error)
       return res.status(500).json({ error: 'Internal server error' })
     } finally {
-      await prisma.$disconnect();
+      await prisma.$disconnect()
     }
   }
 
@@ -83,10 +84,28 @@ export class ProductsController {
   }
 
   static async queryProducts(req: Request, res: Response) {
+    const sqlQuery: SQLQuery = req.body
 
+    const response = await ProductsModel.queryProducts({ sqlQuery })
+
+    if (response[0]) {
+      return res.json(response[1])
+    } else {
+      return res.json({ message: 'You do not have the rights to make this query' })
+    }
   }
 
   static async updateProducts(req: Request, res: Response) {
+    const dataUpdate: string[] = req.body
 
+    const updateConfirmation = await ProductsModel.updateProducts({ dataUpdate })
+
+    if (updateConfirmation) {
+      const responseData = { 'message': 'Product data updated successfully' }
+      return res.json(responseData)
+    } else {
+      const responseData = { 'message': 'An error occurred while updating the product data, please try again' }
+      return res.status(400).json(responseData)
+    }
   }
 }

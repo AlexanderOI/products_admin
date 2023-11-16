@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client"
-import { prisma } from "../services/db"
-import { DataDeleteType, Filter } from "../types"
+import { executeQuery, prisma } from "../services/db"
+import { DataDeleteType, Filter, SQLQuery } from "../types"
 import { validateProductForm } from "../schema/productForm"
 
 export class ProductsModel {
@@ -130,11 +130,54 @@ export class ProductsModel {
     }
   }
 
-  static async queryProducts({ querySQL }: QueryProducts) {
+  static async queryProducts({ sqlQuery }: QueryProducts) {
+    const rigthList = ['SELECT', 'CREATE', 'INSERT', 'UPDATE', 'DELETE']
 
+    let objectRights: string[] = []
+    Object.entries(sqlQuery.rigth).forEach(([_rigth, value], index) => {
+      if (value === false) {
+        objectRights.push(rigthList[index])
+      }
+    })
+
+    let isValid: boolean = false
+    for (let i = 0; i < objectRights.length; i++) {
+      isValid = sqlQuery.query.toLowerCase().includes(objectRights[i].toLowerCase())
+      if (isValid) break
+    }
+
+    if (sqlQuery.query && !isValid) {
+      const rows = await executeQuery(sqlQuery.query)
+      const columns = Object.keys(rows[0])
+      const results = rows.map((row) => Object.values(row))
+      const response = { headers: columns, content: results }
+
+      return [true, response]
+    } else {
+      return [false]
+    }
   }
 
   static async updateProducts({ dataUpdate }: UpdateProducts) {
+    if (dataUpdate.length > 8) {
+      await prisma.product.update({
+        where: { product_id: parseInt(dataUpdate[0]) },
+        data: {
+          sub_category: dataUpdate[1],
+          category_id: dataUpdate[2],
+          product: dataUpdate[3],
+          alt: dataUpdate[4],
+          price: parseInt(dataUpdate[5]),
+          stock: parseInt(dataUpdate[6]),
+          quantity: parseInt(dataUpdate[7]),
+          img: dataUpdate[8],
+        }
+      })
+
+      return true
+    } else {
+      return false
+    }
 
   }
 }
@@ -170,9 +213,9 @@ type DeleteProducts = {
 }
 
 type QueryProducts = {
-  querySQL: undefined
+  sqlQuery: SQLQuery
 }
 
 type UpdateProducts = {
-  dataUpdate: undefined
+  dataUpdate: string[]
 }

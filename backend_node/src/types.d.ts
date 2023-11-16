@@ -42,3 +42,11 @@ export type DataDeleteType = {
   preUrl: string
   postUrl: string
 }
+
+//Type rigths list query
+type SQLQuery = {
+  query: string
+  rigth: {
+    [key in 'SELECT' | 'CREATE' | 'INSERT' | 'UPDATE' | 'DELETE']: boolean
+  }
+};

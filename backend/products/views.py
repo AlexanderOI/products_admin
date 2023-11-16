@@ -165,7 +165,7 @@ def query_products(request: HttpRequest):
                 columns = [col[0] for col in cursor.description]
                 
                 response = {'headers': columns, 'content': results}
-            
+                print(response)
             return JsonResponse(response, safe=False)
         else:
             return JsonResponse({'message': 'You do not have the rights to make this query'}, safe=False)
